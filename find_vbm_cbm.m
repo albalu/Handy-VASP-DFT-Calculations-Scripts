@@ -26,8 +26,8 @@ if spinorbit == 1
 end
 energies = zeros(NKPTS, NBTOT);
 kpoints = zeros(NKPTS,4);
-kcon = zeros(1,3);
-kval = zeros(1,3);
+kcbm = zeros(1,3);
+kvbm = zeros(1,3);
 for i = 1:NKPTS
     kpoints(i,:) = fscanf(eigenval, '%f',4);
     for j = 1:NBTOT
@@ -45,7 +45,7 @@ ecbm = 1000;
 for i = 1:NKPTS
         if(energies(i,NBVAL)>evbm)
             evbm = energies(i,NBVAL);
-            val_kpoint = kpoints(i,1:3);
+            kvbm = kpoints(i,1:3);
         end
 end
 for i = 1:NKPTS
