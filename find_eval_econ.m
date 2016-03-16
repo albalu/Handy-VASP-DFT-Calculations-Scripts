@@ -4,7 +4,7 @@
 %%% By Alireza Faghaninia with the help of Mike Sullivan
 %%% please contact alireza@wustl.edu for questions(bug reports appreciated)
 
-function [eval,val_kpoint,econ,con_kpoint] = find_eval_econ(filename,spinorbit)
+function [evbm,kvbm,ecbm,kcbm] = find_vbm_cbm(filename,spinorbit)
 
 if nargin < 2
     spinorbit = 0;
@@ -26,8 +26,8 @@ if spinorbit == 1
 end
 energies = zeros(NKPTS, NBTOT);
 kpoints = zeros(NKPTS,4);
-con_kpoint = zeros(1,3);
-val_kpoint = zeros(1,3);
+kcon = zeros(1,3);
+kval = zeros(1,3);
 for i = 1:NKPTS
     kpoints(i,:) = fscanf(eigenval, '%f',4);
     for j = 1:NBTOT
@@ -40,17 +40,17 @@ for i = 1:NKPTS
     end
 end
 
-eval = -1000;
-econ = 1000;
+evbm = -1000;
+ecbm = 1000;
 for i = 1:NKPTS
-        if(energies(i,NBVAL)>eval)
-            eval = energies(i,NBVAL);
+        if(energies(i,NBVAL)>evbm)
+            evbm = energies(i,NBVAL);
             val_kpoint = kpoints(i,1:3);
         end
 end
 for i = 1:NKPTS
-        if(energies(i,NBVAL+1)<econ)
-            econ = energies(i,NBVAL+1);
-            con_kpoint = kpoints(i,1:3);
+        if(energies(i,NBVAL+1)<ecbm)
+            ecbm = energies(i,NBVAL+1);
+            kcbm = kpoints(i,1:3);
         end
 end
