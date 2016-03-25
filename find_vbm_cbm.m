@@ -8,6 +8,13 @@ function [evbm,kvbm,ecbm,kcbm] = find_vbm_cbm(filename,spinorbit)
 
 if nargin < 2
     spinorbit = 0;
+else
+    if strcmp(spinorbit, 'false') || strcmp(spinorbit, 'False') || strcmp(spinorbit, 'FALSE')
+        spinorbit = 0
+    end
+    if strcmp(spinorbit, 'true') || strcmp(spinorbit, 'True') || strcmp(spinorbit, 'TRUE')
+        spinorbit = 1
+    end
 end
 
 eigenval = fopen(filename,'r');
