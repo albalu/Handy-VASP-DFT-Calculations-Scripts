@@ -17,6 +17,11 @@ else
     end
 end
 
+if nargin < 1
+    filename = 'EIGENVAL'
+end
+    
+
 eigenval = fopen(filename,'r');
 buffer=fscanf(eigenval, '%d',4);  %reading the first line  
 ispin=buffer(4); %4th number is ispin (ispin =1: non-magnetic calculation, ispin=2: magnetic)
