@@ -77,12 +77,13 @@ def get_contour(kpoints, energies, energy_of_contour, tolerance = 0.002):
 def finger_print(kpoints, energies, nvbm):
     vb1 = get_band_as_list(energies, nvbm)
     cb1 = get_band_as_list(energies, nvbm + 1)
-    vbm_kindex, vbm = max(enumerate(vb1))
-    cbm_kindex, cbm = min(enumerate(cb1))
+    vbm_kindex, vbm = max(enumerate(vb1), key=lambda x: x[1])
+    cbm_kindex, cbm = min(enumerate(cb1), key=lambda x: x[1])
     kvbm = kpoints[vbm_kindex]
     kcbm = kpoints[cbm_kindex]
-    print(vb1)
+
     return vbm, kvbm, cbm, kcbm
+
 kpoints, energies, nvbm, nkpts = read_eigenval()
 print(kpoints)
 print(energies)
