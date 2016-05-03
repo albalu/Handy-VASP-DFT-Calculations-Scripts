@@ -36,7 +36,7 @@ def read_eigenval(filename = 'EIGENVAL', nvbm = 0, fermi = 0, spinorbit = False)
                 break
         for i in range(nkpts):
             kpoints.append(next(eigenval).split()[0:3])
-            energy = [next(eigenval).split()[1:ispin] for i in range(nbands)]
+            energy = [next(eigenval).split()[1:ispin+1] for i in range(nbands)]
             energy = [item for sublist in energy for item in sublist]
             if ispin == 2:
                 energy2 = energy[1::2]
@@ -61,13 +61,37 @@ def get_band_as_list(energies, nband):
     band = []
     for energy_at_k in energies:
         band.append(energy_at_k[nband-1])
-    return band
+    return map(float, band)
 def get_contour(kpoints, energies, energy_of_contour, tolerance = 0.002):
-    for i in range(len(energies)):
-        for energy in energies[i]:
-            if ene
+    contour = []    # The coordinates of k-points that have the energy_of_contour in their energy states
+    for k in range(len(kpoints)):
+        en = 0
+        for energy in energies[k]:
+            if abs(float(energy) - energy_of_contour) < tolerance:
+                dumlist = map(float, kpoints[k])
+                dumlist.append(en)
+                contour.append(dumlist)
+            en += 1
+    return contour
 
+def finger_print(kpoints, energies, nvbm):
+    vb1 = get_band_as_list(energies, nvbm)
+    cb1 = get_band_as_list(energies, nvbm + 1)
+    vbm_kindex, vbm = max(enumerate(vb1))
+    cbm_kindex, cbm = min(enumerate(cb1))
+    kvbm = kpoints[vbm_kindex]
+    kcbm = kpoints[cbm_kindex]
+    print(vb1)
+    return vbm, kvbm, cbm, kcbm
 kpoints, energies, nvbm, nkpts = read_eigenval()
 print(kpoints)
 print(energies)
 print(nvbm)
+# kk = get_contour(kpoints, energies, 1.4, tolerance = 0.002)
+# print(kk)
+
+vbm, kvbm, cbm, kcbm = finger_print(kpoints, energies, nvbm)
+print(vbm)
+print(kvbm)
+print(cbm)
+print(kcbm)
