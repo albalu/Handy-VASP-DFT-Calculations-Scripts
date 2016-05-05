@@ -84,15 +84,16 @@ def finger_print(kpoints, energies, nvbm):
 
     return vbm, kvbm, cbm, kcbm
 
-kpoints, energies, nvbm, nkpts = read_eigenval()
-print(kpoints)
-print(energies)
-print(nvbm)
-# kk = get_contour(kpoints, energies, 1.4, tolerance = 0.002)
-# print(kk)
+if __name__ == "__main__":
+    kpoints, energies, nvbm, nkpts = read_eigenval()
+    print(kpoints)
+    print(energies)
+    print(nvbm)
+    c = get_contour(kpoints, energies, 1.4, tolerance = 0.002)
+    print(c)
 
-vbm, kvbm, cbm, kcbm = finger_print(kpoints, energies, nvbm)
-print(vbm)
-print(kvbm)
-print(cbm)
-print(kcbm)
+    vbm, kvbm, cbm, kcbm = finger_print(kpoints, energies, nvbm)
+    print(vbm)
+    print(kvbm)
+    print(cbm)
+    print(kcbm)
